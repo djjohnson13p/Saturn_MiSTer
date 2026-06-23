@@ -1,16 +1,16 @@
-# Saturn_HQ2X Experimental Dual-RAM HDMI Core
+# Saturn Dual-RAM HQ2X Experimental HDMI Core
 
-This is an experimental HQ2x visual test build, not a replacement for the normal MiSTer Saturn core.
+This is a Dual-RAM-only experimental HQ2X visual test build, not a replacement for the normal MiSTer Saturn core.
 
 ## What This Core Is
 
-`Saturn_HQ2X.rbf` is a special-purpose Saturn Dual-RAM build for MiSTer FPGA. It is HDMI-only, forces full HQ2x video processing on, and uses a stripped/maximized-for-fit configuration so the HQ2x path can fit in the FPGA.
+`saturn_dual_hq2x.rbf` is a special-purpose Saturn Dual-RAM-only build for MiSTer FPGA. It requires dual SDRAM, is HDMI-only, forces full HQ2X video processing on, and uses a stripped/maximized-for-fit configuration so the HQ2X path can fit in the FPGA.
 
-This build is intended for users who specifically want to compare HQ2x visuals against the normal Saturn core. It is not intended to replace the stock Saturn Dual-RAM core for daily use.
+This build is intended for users who specifically want to compare HQ2X visuals against the normal Saturn core. It is not for single-SDRAM setups and is not intended to replace the stock Saturn Dual-RAM core for daily use.
 
 ## Comparison With Stock Saturn
 
-| Feature | Stock Saturn Dual-RAM Core | Saturn_HQ2X |
+| Feature | Stock Saturn Dual-RAM Core | saturn_dual_hq2x |
 | --- | --- | --- |
 | Intended use | Normal/default Saturn core | Experimental HQ2x visual comparison |
 | Compatibility focus | Best compatibility | Special-purpose test build |
@@ -18,14 +18,13 @@ This build is intended for users who specifically want to compare HQ2x visuals a
 | Video output | Normal MiSTer output options, depending on build | HDMI-only |
 | Aspect/crop/scaler controls | Normal aspect, crop, and scaler controls | Aspect/crop helpers stripped |
 | Direct Video/VGA/analog options | Available depending on build and setup | Removed/disabled |
-| Cheats | Normal core behavior | Disabled |
 | Correct 4:3 handling | Internal controls available | Requires display-side 4:3 correction |
 | Recommended for daily play | Yes | No, unless you accept the limitations |
 
 ## Requirements
 
 - MiSTer FPGA setup.
-- Dual SDRAM installed.
+- Dual SDRAM installed. This core is not for single-SDRAM setups.
 - HDMI output.
 - A TV, monitor, or scaler that can force 4:3 if you want correct aspect ratio.
 - Normal Saturn BIOS and game setup required by the standard MiSTer Saturn core.
@@ -35,10 +34,10 @@ This build is intended for users who specifically want to compare HQ2x visuals a
 Copy the RBF to the MiSTer console folder:
 
 ```text
-_Console/Saturn_HQ2X.rbf
+_Console/saturn_dual_hq2x.rbf
 ```
 
-On MiSTer, select `Saturn_HQ2X` from the core list.
+On MiSTer, select `saturn_dual_hq2x` from the core list.
 
 Keep the normal Saturn core installed. This build does not replace it.
 
@@ -57,10 +56,12 @@ The exact label depends on the display.
 
 ## Known Limitations
 
+- Dual-RAM only.
+- Not intended for single-SDRAM setups.
 - The image will look widescreen or stretched if the display is left in 16:9.
 - No internal 4:3/aspect fix is included.
 - HDMI-only.
-- Cheats are disabled.
+- Full HQ2X is forced on.
 - This is not the stock daily-use Saturn core.
 - Some display convenience options are removed.
 - Not tested across the full Saturn library.
@@ -69,7 +70,7 @@ The exact label depends on the display.
 
 ## Technical Notes
 
-Full HQ2x did not fit in the normal full-feature Dual-RAM HDMI build. This RBF only fits after a max-strip configuration that removes optional video features and forces the HQ2x path.
+Full HQ2X did not fit in the normal full-feature Dual-RAM HDMI build. This RBF only fits after a max-strip configuration that removes optional video features and forces the HQ2X path.
 
 The working HQ2x video path depends on reconnecting `VGA_DE` to the video mixer output and disabling ascal downscale. The confirmed working build uses 100% of available RAM blocks, so even small feature restores can affect timing.
 
@@ -84,14 +85,14 @@ Rejected timing-failed builds are not included in this package.
 
 Use the stock Saturn Dual-RAM core for normal play.
 
-Use `Saturn_HQ2X.rbf` only for HQ2x visual comparison/testing, and switch the TV/display/scaler to 4:3 before judging the result.
+Use `saturn_dual_hq2x.rbf` only for HQ2X visual comparison/testing, and switch the TV/display/scaler to 4:3 before judging the result.
 
 ## File And Hash
 
 RBF:
 
 ```text
-Saturn_HQ2X.rbf
+saturn_dual_hq2x.rbf
 ```
 
 SHA256:
