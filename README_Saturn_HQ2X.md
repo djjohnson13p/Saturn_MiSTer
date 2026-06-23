@@ -4,13 +4,13 @@ This is an experimental HQ2x visual test build, not a replacement for the normal
 
 ## What This Core Is
 
-`saturn_dualram_hq2x.rbf` is a special-purpose Saturn Dual-RAM build for MiSTer FPGA. It is HDMI-only, forces full HQ2x video processing on, and uses a stripped/maximized-for-fit configuration so the HQ2x path can fit in the FPGA.
+`Saturn_HQ2X.rbf` is a special-purpose Saturn Dual-RAM build for MiSTer FPGA. It is HDMI-only, forces full HQ2x video processing on, and uses a stripped/maximized-for-fit configuration so the HQ2x path can fit in the FPGA.
 
 This build is intended for users who specifically want to compare HQ2x visuals against the normal Saturn core. It is not intended to replace the stock Saturn Dual-RAM core for daily use.
 
 ## Comparison With Stock Saturn
 
-| Feature | Stock Saturn Dual-RAM Core | saturn_dualram_hq2x |
+| Feature | Stock Saturn Dual-RAM Core | Saturn_HQ2X |
 | --- | --- | --- |
 | Intended use | Normal/default Saturn core | Experimental HQ2x visual comparison |
 | Compatibility focus | Best compatibility | Special-purpose test build |
@@ -35,10 +35,10 @@ This build is intended for users who specifically want to compare HQ2x visuals a
 Copy the RBF to the MiSTer console folder:
 
 ```text
-_Console/saturn_dualram_hq2x.rbf
+_Console/Saturn_HQ2X.rbf
 ```
 
-On MiSTer, select `saturn_dualram_hq2x` from the core list.
+On MiSTer, select `Saturn_HQ2X` from the core list.
 
 Keep the normal Saturn core installed. This build does not replace it.
 
@@ -84,14 +84,14 @@ Rejected timing-failed builds are not included in this package.
 
 Use the stock Saturn Dual-RAM core for normal play.
 
-Use `saturn_dualram_hq2x.rbf` only for HQ2x visual comparison/testing, and switch the TV/display/scaler to 4:3 before judging the result.
+Use `Saturn_HQ2X.rbf` only for HQ2x visual comparison/testing, and switch the TV/display/scaler to 4:3 before judging the result.
 
 ## File And Hash
 
 RBF:
 
 ```text
-saturn_dualram_hq2x.rbf
+Saturn_HQ2X.rbf
 ```
 
 SHA256:
