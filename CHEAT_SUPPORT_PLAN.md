@@ -1,5 +1,33 @@
 # Saturn MiSTer Cheat Support Plan
 
+## Tester Scope for This Branch
+
+This branch should be treated as an experimental Saturn cheat-support proof of
+concept. The public/testing target is the Single-RAM cheat-support POC unless a
+specific RBF is explicitly documented otherwise. It is intended to behave like
+the working Single-RAM all-cheats build, but it is not a stock-core replacement
+yet and it does not guarantee that every cheat will work.
+
+For testing, first boot the game with cheats off and confirm normal game
+behavior. Then enable one cheat at a time from the OSD and record the result.
+Some cheat files are tied to a specific game version, region, or memory layout;
+a bad or mismatched cheat file may still do nothing, freeze, or crash even when
+the core-side cheat path is functioning.
+
+Please report:
+
+- Game name.
+- Region/version, if known.
+- Core/RBF filename used.
+- Cheat file/name used.
+- Whether the game boots with cheats off.
+- Whether enabling the cheat works, does nothing, freezes, or crashes.
+
+Dual-RAM cheat support is not confirmed by this POC. Dual-RAM cheat activation
+has unresolved hardware behavior and should not be used as proof that a cheat
+file or cheat pack is correct or incorrect unless the exact Dual-RAM build has
+been separately hardware-confirmed and documented.
+
 ## 1. MiSTer Cheat Input Path
 
 MiSTer cheat files are delivered to a core through the existing `hps_io`
@@ -12,12 +40,11 @@ download interface. The Saturn wrapper already exposes that interface in
 - `ioctl_data` carries the downloaded data.
 - `ioctl_wr` marks a valid write beat.
 
-Other MiSTer console cores declare `"C,Cheats;"` in `CONF_STR` and treat an
-all-ones ioctl index (`8'hFF`) as a cheat-code download. Cheat records commonly
+Other MiSTer console cores declare a cheat-related OSD entry in `CONF_STR` and
+receive cheat data through the same download path. Cheat records commonly
 contain flags, an address, an optional compare value, and a replacement value.
 
-The Saturn core currently has no cheat menu declaration or cheat record loader.
-The existing path in `Saturn.sv` is sufficient to receive records without
+The POC uses the existing path in `Saturn.sv` to receive cheat data without
 changing `sys/hps_io.sv`.
 
 ## 2. Likely Saturn Memory Hook Points
@@ -37,8 +64,10 @@ High work RAM needs particular care because it has two backends:
 - Single-SDRAM builds route it through `rtl/ddram.sv`.
 - Dual-SDRAM builds route it through `rtl/sdram2.sv`.
 
-The root wrapper sees both configurations and is therefore a better initial
-hook point than modifying only `rtl/ddram.sv`.
+The root wrapper sees both configurations, but only the Single-RAM POC behavior
+should be treated as the current working tester reference. Dual-RAM behavior is
+still experimental and unresolved unless a specific build has been separately
+verified.
 
 Additional memory regions can be considered after the work-RAM path is proven:
 
@@ -64,15 +93,16 @@ Important consequences:
 - A complete design may need cache-aware replacement, invalidation, or an
   explicit purge path for both SH-2 instances.
 
-Stage 1 should avoid claiming general cheat compatibility until cache behavior
-has been measured with a real title.
+Stage 1 should avoid claiming general cheat compatibility. Hardware testing can
+confirm specific game/cheat combinations, but it should not be read as a
+guarantee that all Saturn cheats work.
 
 ## 4. Staged Implementation Plan
 
 ### Stage 1: Input and Minimal Work-RAM Proof of Concept
 
-- Add `"C,Cheats;"` to the Saturn `CONF_STR`.
-- Decode cheat downloads using `ioctl_index == 8'hFF`.
+- Add a cheat-related OSD entry to the Saturn `CONF_STR`.
+- Decode cheat downloads through the MiSTer ioctl path.
 - Load a small fixed number of address/value records.
 - Support a deliberately narrow work-RAM replacement path.
 - Validate one known cheat against a real game on hardware.
@@ -98,7 +128,7 @@ has been measured with a real title.
 - Add optional coverage for cartridge RAM, backup SRAM, CD RAM, or ST-V memory
   only where real cheats require it.
 - Add record limits, reset behavior, and status reporting.
-- Test both single-SDRAM and dual-SDRAM builds.
+- Test both single-SDRAM and dual-SDRAM builds, documenting them separately.
 
 ## 5. Stage 1 Proof-of-Concept Goal
 
@@ -112,5 +142,6 @@ Saturn work-RAM cheat without changing SH-2 cache internals yet:
 4. A real game visibly reflects the changed value.
 5. The test records whether cache effects limit reliability.
 
-Success means the input format, address mapping, and minimal hook are correct.
-It does not yet mean that arbitrary Saturn cheats are supported.
+Success means the input format, address mapping, and minimal Single-RAM hook are
+correct for the tested game/cheat combination. It does not mean that arbitrary
+Saturn cheats are supported, and it does not confirm Dual-RAM cheat behavior.
